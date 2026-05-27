@@ -400,7 +400,7 @@ function showServerError() {
                 Server Not Running
             </h2>
             <p style="color:rgba(255,255,255,0.55); font-size:14px; margin:0 0 28px; line-height:1.6;">
-                The backend server is not reachable on <strong style="color:#D97706;">localhost:5000</strong>.<br>
+                The backend server is not reachable on <strong style="color:#D97706;">${API_BASE.replace('/api', '')}</strong>.<br>
                 Please start the server, then click Retry.
             </p>
 
