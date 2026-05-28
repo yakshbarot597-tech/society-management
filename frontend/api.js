@@ -7,8 +7,13 @@ const API_BASE = import.meta.env.VITE_API_URL ||
         : (PRODUCTION_API_URL ? `${PRODUCTION_API_URL.replace(/\/$/, '')}/api` : window.location.origin + '/api'));
 
 
+const API_KEY = import.meta.env.VITE_API_KEY || 'hms-api-key-2024-secure';
+
 function getHeaders() {
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = { 
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY
+    };
     const token = localStorage.getItem('jwt_token');
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -39,10 +44,10 @@ async function fetchWithAuth(url, options = {}) {
 
 
 const Api = {
-    setup: (data) => fetch(`${API_BASE}/setup`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    login: (data) => fetch(`${API_BASE}/login`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    residentLogin: (data) => fetch(`${API_BASE}/resident-login`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    getSocieties: () => fetch(`${API_BASE}/societies`),
+    setup: (data) => fetch(`${API_BASE}/setup`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    login: (data) => fetch(`${API_BASE}/login`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    residentLogin: (data) => fetch(`${API_BASE}/resident-login`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    getSocieties: () => fetch(`${API_BASE}/societies`, { headers: {'x-api-key': API_KEY} }),
     getSociety: (name, type) => fetchWithAuth(`${API_BASE}/society/${encodeURIComponent(name)}/${encodeURIComponent(type)}`),
     saveFlat: (data) => fetchWithAuth(`${API_BASE}/flat`, { method: 'POST', body: JSON.stringify(data) }),
     saveExpense: (data) => fetchWithAuth(`${API_BASE}/expense`, { method: 'POST', body: JSON.stringify(data) }),
@@ -56,11 +61,11 @@ const Api = {
     saveCommittee: (data) => fetchWithAuth(`${API_BASE}/committee`, { method: 'POST', body: JSON.stringify(data) }),
     deleteCommittee: (id) => fetchWithAuth(`${API_BASE}/committee/${id}`, { method: 'DELETE' }),
     saveBank: (data) => fetchWithAuth(`${API_BASE}/bank`, { method: 'POST', body: JSON.stringify(data) }),
-    requestResidentOtp: (data) => fetch(`${API_BASE}/request-resident-otp`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    verifyResidentOtp: (data) => fetch(`${API_BASE}/verify-resident-otp`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    adminVerifyIdentity: (data) => fetch(`${API_BASE}/admin-verify-identity`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    adminVerifyOtp: (data) => fetch(`${API_BASE}/admin-verify-otp`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
-    adminResetPassword: (data) => fetch(`${API_BASE}/admin-reset-password`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
+    requestResidentOtp: (data) => fetch(`${API_BASE}/request-resident-otp`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    verifyResidentOtp: (data) => fetch(`${API_BASE}/verify-resident-otp`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    adminVerifyIdentity: (data) => fetch(`${API_BASE}/admin-verify-identity`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    adminVerifyOtp: (data) => fetch(`${API_BASE}/admin-verify-otp`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
+    adminResetPassword: (data) => fetch(`${API_BASE}/admin-reset-password`, { method: 'POST', headers: {'Content-Type': 'application/json', 'x-api-key': API_KEY}, body: JSON.stringify(data) }),
     updateDueDay: (data) => fetchWithAuth(`${API_BASE}/update-due-day`, { method: 'POST', body: JSON.stringify(data) })
 };
 
