@@ -62,3 +62,5 @@ const Api = {
     adminResetPassword: (data) => fetch(`${API_BASE}/admin-reset-password`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) }),
     updateDueDay: (data) => fetchWithAuth(`${API_BASE}/update-due-day`, { method: 'POST', body: JSON.stringify(data) })
 };
+
+window.Api = Api;
