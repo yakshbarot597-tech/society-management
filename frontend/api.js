@@ -1,6 +1,9 @@
+// Set your generated Railway backend URL here for production Vercel deployment (e.g., 'https://society-backend-production.up.railway.app')
+const PRODUCTION_API_URL = ''; 
+
 const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:5000/api'
-    : 'https://society-backend-o2gb.onrender.com/api';
+    : (PRODUCTION_API_URL ? `${PRODUCTION_API_URL.replace(/\/$/, '')}/api` : window.location.origin + '/api');
 
 
 function getHeaders() {

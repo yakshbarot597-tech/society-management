@@ -1676,6 +1676,21 @@ function updateTransferPreview() {
     previewEl.textContent = `📋 Preview: "${ownerName}" keeps all months before ${month} ${year}. "${futureOwner}" takes over from ${month} ${year} onwards.`;
 }
 
+function toggleHeaderMenu(event) {
+    if (event) event.stopPropagation();
+    const menu = document.getElementById('headerDropdownMenu');
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
+}
+
+function closeHeaderMenu() {
+    const menu = document.getElementById('headerDropdownMenu');
+    if (menu) {
+        menu.classList.add('hidden');
+    }
+}
+
 function toggleBankModal() { document.getElementById('bankModal').classList.toggle('hidden'); checkFloatingComplaintVisibility(); }
 function toggleCommitteeModal() {
     document.getElementById('committeeModal').classList.toggle('hidden');
@@ -1803,9 +1818,9 @@ function generateFlatInputs(blocksVal) {
     let globalHtml = '';
     if (propertyType === 'flat') {
         globalHtml = `
-            <input id="globalFloors" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Floors" style="flex:1; min-width:0; height:60px; padding:10px; border-radius:12px; font-size:18px; font-weight:700;" class="input-field">
-            <input id="globalFlats" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Flats/Floor" style="flex:1; min-width:0; height:60px; padding:10px; border-radius:12px; font-size:18px; font-weight:700;" class="input-field">
-            <select id="globalBase" onchange="applyAllFlats()" style="flex:1.2; min-width:0; height:60px; min-height:60px; padding:0 8px; border-radius:12px; font-size:16px; font-weight:700;" class="input-field">
+            <input id="globalFloors" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Floors" style="flex:1; min-width:0; height:48px; padding:8px 12px; border-radius:10px; font-size:15px; font-weight:700;" class="input-field">
+            <input id="globalFlats" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Flats/Floor" style="flex:1; min-width:0; height:48px; padding:8px 12px; border-radius:10px; font-size:15px; font-weight:700;" class="input-field">
+            <select id="globalBase" onchange="applyAllFlats()" style="flex:1.2; min-width:0; height:48px; min-height:48px; padding:0 8px; border-radius:10px; font-size:14px; font-weight:700;" class="input-field">
                 <option value="1">A-1, A-2, A-3...</option>
                 <option value="10" selected>A-11, A-12, A-13...</option>
                 <option value="100">A-101, A-102, A-103...</option>
@@ -1813,7 +1828,7 @@ function generateFlatInputs(blocksVal) {
         `;
     } else {
         globalHtml = `
-            <input id="globalCount" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Bunglows/Block" style="width:160px; height:60px; padding:10px; border-radius:12px; font-size:20px; font-weight:700;" class="input-field">
+            <input id="globalCount" type="number" min="1" max="99" oninput="applyAllFlats()" placeholder="Bunglows/Block" style="width:100%; height:48px; padding:8px 12px; border-radius:10px; font-size:15px; font-weight:700;" class="input-field">
         `;
     }
     if (globalContainer) globalContainer.innerHTML = globalHtml;
@@ -1826,21 +1841,21 @@ function generateFlatInputs(blocksVal) {
     const track = document.getElementById('sameFlatsTrack');
     const thumb = document.getElementById('sameFlatsThumb');
     if (track) track.style.background = '#D9C3AE';
-    if (thumb) thumb.style.left = '4px';
+    if (thumb) thumb.style.left = '2px';
 
     // Build individual block inputs
     let html = '';
-    container.className = propertyType === 'flat' ? 'grid grid-cols-1 gap-5' : 'grid grid-cols-2 gap-5';
+    container.className = propertyType === 'flat' ? 'grid grid-cols-1 gap-4' : 'grid grid-cols-2 gap-4';
 
     for (let i = 0; i < blocks; i++) {
         const bName = String.fromCharCode(65 + i);
         if (propertyType === 'flat') {
             html += `
-                <div style="display:flex; gap:10px; align-items:center; background:white; padding:12px; border-radius:18px; border:1px solid rgba(139,94,60,0.15);">
-                    <span style="font-size:24px; font-weight:900; color:#8B5E3C; min-width:30px; text-align:center;">${bName}</span>
-                    <input id="setupFloors_${bName}" type="number" min="1" max="99" placeholder="Floors" style="flex:1; min-width:0; height:60px; padding:10px; border-radius:12px; font-size:18px; font-weight:700;" class="input-field">
-                    <input id="setupFlats_${bName}" type="number" min="1" max="99" placeholder="Flats/Floor" style="flex:1; min-width:0; height:60px; padding:10px; border-radius:12px; font-size:18px; font-weight:700;" class="input-field">
-                    <select id="setupBase_${bName}" style="flex:1.2; min-width:0; height:60px; min-height:60px; padding:0 8px; border-radius:12px; font-size:16px; font-weight:700;" class="input-field">
+                <div style="display:flex; gap:8px; align-items:center; background:white; padding:8px 12px; border-radius:12px; border:1px solid rgba(139,94,60,0.15);">
+                    <span style="font-size:18px; font-weight:900; color:#8B5E3C; min-width:24px; text-align:center;">${bName}</span>
+                    <input id="setupFloors_${bName}" type="number" min="1" max="99" placeholder="Floors" style="flex:1; min-width:0; height:48px; padding:8px 12px; border-radius:10px; font-size:15px; font-weight:700;" class="input-field">
+                    <input id="setupFlats_${bName}" type="number" min="1" max="99" placeholder="Flats/Floor" style="flex:1; min-width:0; height:48px; padding:8px 12px; border-radius:10px; font-size:15px; font-weight:700;" class="input-field">
+                    <select id="setupBase_${bName}" style="flex:1.2; min-width:0; height:48px; min-height:48px; padding:0 8px; border-radius:10px; font-size:14px; font-weight:700;" class="input-field">
                         <option value="1">${bName}-1, ${bName}-2, ${bName}-3...</option>
                         <option value="10" selected>${bName}-11, ${bName}-12, ${bName}-13...</option>
                         <option value="100">${bName}-101, ${bName}-102, ${bName}-103...</option>
@@ -1853,10 +1868,10 @@ function generateFlatInputs(blocksVal) {
                     oninput="if(this.value.length > 2) this.value = this.value.slice(0,2);"
                     placeholder="Bunglows in Block ${bName}" style="
                         width:100%;
-                        height:92px;
-                        padding:24px 28px;
-                        border-radius:24px;
-                        font-size:24px;
+                        height:58px;
+                        padding:12px 18px;
+                        border-radius:14px;
+                        font-size:18px;
                         font-weight:700;
                     " class="input-field">
             `;
@@ -4135,5 +4150,43 @@ async function adminSendReceiptPDF(block, flat, period) {
     }, 800);
 }
 
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const container = document.querySelector('.header-menu-dropdown-container');
+    if (container && !container.contains(event.target)) {
+        closeHeaderMenu();
+    }
+});
+
+// Watch setupInterface visibility to toggle zoom class on body
+const setupInterfaceEl = document.getElementById('setupInterface');
+if (setupInterfaceEl) {
+    const observer = new MutationObserver(() => {
+        if (setupInterfaceEl.classList.contains('hidden')) {
+            document.body.classList.remove('society-portal-active');
+        } else {
+            document.body.classList.add('society-portal-active');
+        }
+    });
+    observer.observe(setupInterfaceEl, { attributes: true, attributeFilter: ['class'] });
+    // Initial check
+    if (!setupInterfaceEl.classList.contains('hidden')) {
+        document.body.classList.add('society-portal-active');
+    }
+}
+
 // Initialize the application
 init();
+
+// Toggle password field visibility
+function togglePasswordVisibility(fieldId, buttonEl) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    if (field.type === 'password') {
+        field.type = 'text';
+        buttonEl.textContent = '🙈';
+    } else {
+        field.type = 'password';
+        buttonEl.textContent = '👁️';
+    }
+}
